@@ -9,7 +9,11 @@ our @ISA = qw(Exporter);
 our @EXPORT = qw(
 	TEST CODE RUN SKIP TODO
 );
-our $VERSION = '0.01';
+
+use vars qw( $VERSION );
+
+	$VERSION = '1.01'; # $Revision: 1.8 $ #
+	
 our @TESTS;
 our @SKIP_FILTERS;
 our @TODO_FILTERS;
@@ -20,45 +24,53 @@ sub TODO ($;$)	{ push @TODO_FILTERS, [qr{$_[0]},'TODO '.$_[1]] }
 sub CODE (&)	{ $_[0] }
 sub RUN ()
 {
-	my( $MySimpleTestObject, $MySimpleTestObjectIndex );
+	my( $MyEasyTestObject, $MyEasyTestObjectIndex );
 	printf "1..%d\n", scalar( @TESTS );
 	RUN_LOOP: for( 
-		$MySimpleTestObjectIndex=0;
-		$MySimpleTestObjectIndex<=$#TESTS;
-		$MySimpleTestObjectIndex++
+		$MyEasyTestObjectIndex=0;
+		$MyEasyTestObjectIndex<=$#TESTS;
+		$MyEasyTestObjectIndex++
 		)
 	{
-		$MySimpleTestObject = $TESTS[$MySimpleTestObjectIndex];
+		$MyEasyTestObject = $TESTS[$MyEasyTestObjectIndex];
 		foreach ( @SKIP_FILTERS )
 		{
-			if( $MySimpleTestObject->[0] =~ $_->[0] )
+			if( $MyEasyTestObject->[0] =~ $_->[0] )
 			{
 				#debug# print "# FILTER passed\n";
-				$MySimpleTestObject->[0] .= ' # '.$_->[1]; # add SKIP/TODO token
-				printf "ok %d - %s\n"
-					, (1+$MySimpleTestObjectIndex)
-					, $MySimpleTestObject->[0]
+				$MyEasyTestObject->[0] .= ' # '.$_->[1]; # add SKIP/TODO token
+				printf "\nok %d - %s\n"
+					, (1+$MyEasyTestObjectIndex)
+					, $MyEasyTestObject->[0]
 				;
 				next RUN_LOOP;
 			}
 		}
-		$MySimpleTestObject->[2] =
-			(defined(eval{ &{$MySimpleTestObject->[1]} })&&!$@)?1:0;
+		
+		# print header what we are going to test
+		printf "\n# -> %d - %s\n"
+			, (1+$MyEasyTestObjectIndex)
+			, $MyEasyTestObject->[0]
+		;
+
+		# call the test
+		$MyEasyTestObject->[2] =
+			(defined(eval{ &{$MyEasyTestObject->[1]} })&&!$@)?1:0;
 		foreach ( @TODO_FILTERS )
 		{
 			#debug# printf "# FILTER: qr{%s} %s\n", @$_;
-			if( $MySimpleTestObject->[0] =~ $_->[0] )
+			if( $MyEasyTestObject->[0] =~ $_->[0] )
 			{
 				#debug# print "# FILTER passed\n";
-				$MySimpleTestObject->[0] .= ' # '.$_->[1]; # add SKIP/TODO token
+				$MyEasyTestObject->[0] .= ' # '.$_->[1]; # add SKIP/TODO token
 				last;
 			}
 		}
-		if( $MySimpleTestObject->[2] )
+		if( $MyEasyTestObject->[2] )
 		{
 			printf "ok %d - %s\n"
-				, (1+$MySimpleTestObjectIndex)
-				, $MySimpleTestObject->[0]
+				, (1+$MyEasyTestObjectIndex)
+				, $MyEasyTestObject->[0]
 			;
 		}
 		else
@@ -66,28 +78,28 @@ sub RUN ()
 			my $results = 'results: '.($@||'<undef>'); 
 			$results =~ s{^}{\t#}gom;
 			printf "not ok %d - %s\n%s\n"
-				, (1+$MySimpleTestObjectIndex)
-				, $MySimpleTestObject->[0]
+				, (1+$MyEasyTestObjectIndex)
+				, $MyEasyTestObject->[0]
 				, $results
 			;
 		}
 	}
 }
 
-package Test::Easy::Tools;
-
-sub isUndef (*) { defined($_[0])?undef:1 }
-sub isArrayRef (*) { (ref(shift())=~/^ARRAY.*/o)?$&:undef }
-sub isHashRef (*) { (ref(shift())=~/^HASH.*/o)?$&:undef }
-sub isCodeRef (*) { (ref(shift())=~/^CODE.*/o)?$&:undef }
-sub isScalarRef (*) { (ref(shift())=~/^SCALAR.*/o)?$&:undef }
+sub test::is_undef (*) { !defined($_[0]) ? 1 : undef }
+sub test::is_true (*) { $_[0] ? 1 : undef }
+sub test::is_false (*) { (defined($_[0]) && !$_[0] ) ? 1 : undef }
+#sub test::isArrayRef (*) { (ref(shift())=~/^ARRAY.*/o)?$&:undef }
+#sub test::isHashRef (*) { (ref(shift())=~/^HASH.*/o)?$&:undef }
+#sub test::isCodeRef (*) { (ref(shift())=~/^CODE.*/o)?$&:undef }
+#sub test::isScalarRef (*) { (ref(shift())=~/^SCALAR.*/o)?$&:undef }
 
 1;
 __END__
 
 =head1 NAME
 
-Test::Easy - Much 'Easy' than 'Simple'.
+Test::Easy - Testing made absolute easy.
 
 =head1 SYNOPSIS
 
@@ -112,9 +124,14 @@ Test::Easy - Much 'Easy' than 'Simple'.
 
 =head1 DESCRIPTION
 
+=head2 JUST ABOUT
+
 Easy testing suite. No plans, no special testing logic.
-Just give your TEST 'label', CODE {return 'defined value'} and RUN.
-All other sub's are just tools to decide whether to return 'defined value' or not.
+Absolutely easy just like this:
+
+	do { TEST 'label' => CODE { return 'defined value' } and RUN }
+	
+All other sub's should be just tools to decide whether to return 'defined' or undef value.
 
 No plans at all. (Isn't it a bug if I forget to change number of plans?)
 	
@@ -127,21 +144,50 @@ NOTE 2: both SKIP or TODO can be invoked from within CODE block to
 reflect run-time or conditional options. But don't expect to SKIP 'my self' when the test just run.
 (You can SKIP 'the other following tests' only)
 
-All tests are RUN after the RUN call. (Offering new testing ideas.)
+All tests are run by the RUN call. (Offering new testing ideas.)
 Order of tests remains same as they appeared within the script file. 
 When died, it still reports usefull line numbers.
 
-=head1 EXPORT
+=head2 EXPORT
 
 	TEST CODE RUN SKIP TODO
 	
+=head2 STYLE
+
+	#style1
+	
+	TEST 'descriptive/label/of/what/to/test',
+	CODE
+	{
+		return 'some_true_to_OK';
+	};
+	
+	#style2
+	
+	TEST 'descriptive/label/of/what/to/test' => CODE
+	{
+		return test::is_true( 'some_true_to_OK' );
+	};
+	
+	#style3
+	
+	TEST 'descriptive/label/of/what/to/test',
+	CODE { return 'true if this test passed ok' }
+	;
+
+	
+	
 =head1 TODO
 
-Test::Easy::Tools like isUndef, isTrue, isFalse, isArrayRef, etc... (some of them are already undocumented within this module)
+dirty way exported tools functions into dummy namespace `test::'
+
+	test::is_undef
+	test::is_true
+	test::is_false
 
 =head1 AUTHOR
 
-B<Daniel Peder>, <Daniel.Peder@InfoSet.COM>, <http://www.InfoSet.com>
+B<Daniel Peder>, <DanPeder@CPAN.ORG>, <Daniel.Peder@InfoSet.COM>, <http://www.InfoSet.com>
 
 =head1 COPYRIGHT
 
@@ -149,6 +195,21 @@ Copyright 2002 Daniel Peder.
 
 This program is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
+
+=head1 REVISION
+
+	$Id: Easy.pm_rev 1.8 2003/12/12 09:03:33 root Exp $
+	
+=head2 HISTORY
+
+	$Log: Easy.pm_rev $
+	Revision 1.8  2003/12/12 09:03:33  root
+	minor source code changes: use vars $VERSION
+	distro changes: added t/use.t
+
+	Revision 1.7  2002/12/07 12:30:23  root
+	version 1.00 stable for release
+
 
 =head1 SEE ALSO
 

@@ -1,7 +1,9 @@
 NAME
-    Test::Easy - Much 'Easy' than 'Simple'.
+
+    Test::Easy - Testing made absolute easy.
 
 SYNOPSIS
+
             use Test::Easy;
         
             TEST 'this is my 1st test',
@@ -22,9 +24,16 @@ SYNOPSIS
             RUN;
 
 DESCRIPTION
-    Easy testing suite. No plans, no special testing logic. Just give your
-    TEST 'label', CODE {return 'defined value'} and RUN. All other sub's are
-    just tools to decide whether to return 'defined value' or not.
+
+  JUST ABOUT
+
+    Easy testing suite. No plans, no special testing logic. Absolutely easy
+    just like this:
+
+            do { TEST 'label' => CODE { return 'defined value' } and RUN }
+        
+    All other sub's should be just tools to decide whether to return
+    'defined' or undef value.
 
     No plans at all. (Isn't it a bug if I forget to change number of plans?)
 
@@ -38,27 +47,72 @@ DESCRIPTION
     self' when the test just run. (You can SKIP 'the other following tests'
     only)
 
-    All tests are RUN after the RUN call. (Offering new testing ideas.)
-    Order of tests remains same as they appeared within the script file.
-    When died, it still reports usefull line numbers.
+    All tests are run by the RUN call. (Offering new testing ideas.) Order
+    of tests remains same as they appeared within the script file. When
+    died, it still reports usefull line numbers.
 
-EXPORT
+  EXPORT
+
             TEST CODE RUN SKIP TODO
         
+  STYLE
+
+            #style1
+        
+            TEST 'descriptive/label/of/what/to/test',
+            CODE
+            {
+                    return 'some_true_to_OK';
+            };
+        
+            #style2
+        
+            TEST 'descriptive/label/of/what/to/test' => CODE
+            {
+                    return test::is_true( 'some_true_to_OK' );
+            };
+        
+            #style3
+        
+            TEST 'descriptive/label/of/what/to/test',
+            CODE { return 'true if this test passed ok' }
+            ;
+
 TODO
-    Test::Easy::Tools like isUndef, isTrue, isFalse, isArrayRef, etc...
-    (some of them are already undocumented within this module)
+
+    dirty way exported tools functions into dummy namespace `test::'
+
+            test::is_undef
+            test::is_true
+            test::is_false
 
 AUTHOR
-    Daniel Peder, <Daniel.Peder@InfoSet.COM>, <http://www.InfoSet.com>
+
+    Daniel Peder, <DanPeder@CPAN.ORG>, <Daniel.Peder@InfoSet.COM>,
+    <http://www.InfoSet.com>
 
 COPYRIGHT
+
     Copyright 2002 Daniel Peder.
 
     This program is free software; you can redistribute it and/or modify it
     under the same terms as Perl itself.
 
+REVISION
+
+            $Id: Easy.pm_rev 1.8 2003/12/12 09:03:33 root Exp $
+        
+  HISTORY
+
+            $Log: Easy.pm_rev $
+            Revision 1.8  2003/12/12 09:03:33  root
+            minor source code changes: use vars $VERSION
+            distro changes: added t/use.t
+
+            Revision 1.7  2002/12/07 12:30:23  root
+            version 1.00 stable for release
+
 SEE ALSO
-    the Test::Tutorial manpage, the Test::Simple manpage, the Test::More
-    manpage, the perl manpage(1).
+
+    Test::Tutorial, Test::Simple, Test::More, perl(1).
 

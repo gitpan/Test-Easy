@@ -1,5 +1,7 @@
 Easy.pm
-MANIFEST
 Makefile.PL
+MANIFEST			This list of files
+META.yml
 README
-t/00_Test1.t
+t/00_use.t
+t/01_TestItself.t
