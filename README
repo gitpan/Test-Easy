@@ -1,0 +1,64 @@
+NAME
+    Test::Easy - Much 'Easy' than 'Simple'.
+
+SYNOPSIS
+            use Test::Easy;
+        
+            TEST 'this is my 1st test',
+            CODE { return 'true if this test passed ok' }
+            ;
+        
+            TEST 'this is my 2nd test',
+            CODE { return 'true if this test passed ok' }
+            ;
+        
+            TEST 'this is my bad test',
+            CODE { return undef or die "this test failed" }
+            ;
+        
+            SKIP 'my 2nd test', 'just because ...';
+            TODO 'my bad test', 'need it good one day ...';
+        
+            RUN;
+
+DESCRIPTION
+    Easy testing suite. No plans, no special testing logic. Just give your
+    TEST 'label', CODE {return 'defined value'} and RUN. All other sub's are
+    just tools to decide whether to return 'defined value' or not.
+
+    No plans at all. (Isn't it a bug if I forget to change number of plans?)
+
+    SKIPs and TODOs are based on regular expression matching TEST labels.
+    Just give your tests smart labels (/my/testing/group1) and enjoy.
+
+    NOTE 1: what's SKIPped will never be 'TODO'.
+
+    NOTE 2: both SKIP or TODO can be invoked from within CODE block to
+    reflect run-time or conditional options. But don't expect to SKIP 'my
+    self' when the test just run. (You can SKIP 'the other following tests'
+    only)
+
+    All tests are RUN after the RUN call. (Offering new testing ideas.)
+    Order of tests remains same as they appeared within the script file.
+    When died, it still reports usefull line numbers.
+
+EXPORT
+            TEST CODE RUN SKIP TODO
+        
+TODO
+    Test::Easy::Tools like isUndef, isTrue, isFalse, isArrayRef, etc...
+    (some of them are already undocumented within this module)
+
+AUTHOR
+    Daniel Peder, <Daniel.Peder@InfoSet.COM>, <http://www.InfoSet.com>
+
+COPYRIGHT
+    Copyright 2002 Daniel Peder.
+
+    This program is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
+SEE ALSO
+    the Test::Tutorial manpage, the Test::Simple manpage, the Test::More
+    manpage, the perl manpage(1).
+
