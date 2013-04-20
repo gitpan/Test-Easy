@@ -1,23 +1,30 @@
+use strict;
+use warnings;
 use ExtUtils::MakeMaker;
-# See lib/ExtUtils/MakeMaker.pm for details of how to influence
-# the contents of the Makefile that is written.
+
 WriteMakefile(
-    'NAME'		=> 'Test::Easy',
-    'VERSION_FROM'	=> 'Easy.pm',
-    'PREREQ_PM'		=> { Exporter=>5.562, warnings=>0.00, strict=>0.00 },
-    ($] >= 5.005 ? (
-      AUTHOR     => 'Daniel Peder <Daniel.Peder@infoset.com>',
-    ) : ()),
+	NAME           => 'Test::Easy',
+	AUTHOR         => 'Belden Lyman <belden@cpan.org>',
+	VERSION_FROM   => 'lib/Test/Easy.pm',
+	ABSTRACT_FROM  => 'lib/Test/Easy.pm',
+	PL_FILES => {},
+	PREREQ_PM => {
+ 		'Data::Denter'        => 0,       # for deep_equal and deep_ok
+ 		'Data::Difflet'       => 0.06,    # for deep_equal and deep_ok
+ 		'Functional::Utility' => 1.02,
+ 		'Hash::MostUtils'     => 1.05,
+ 		'Scalar::Util'        => 0,
+ 		'Test::More'          => 0,
+ 		'Test::Resub'         => 0,
+	},
+	META_MERGE => {
+		resources => {
+			bugtracker => 'https://github.com/belden/perl-test-easy/issues',
+			homepage   => 'https://github.com/belden/perl-test-easy',
+			repository => 'git://github.com/belden/perl-test-easy.git',
+		},
+	},
+	LICENSE => 'perl',
+	dist => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
+	clean => { FILES => 'Test-Easy-*' },
 );
-
-sub MY::postamble { q{
-
-docs : README
-
-README: Easy.pm
-	pod2text --loose Easy.pm > README
-
-xdist:
-	[ -f MANIFEST ] && rm -f MANIFEST ; make realclean docs manifest tardist; perl Makefile.PL
-
-}; }
