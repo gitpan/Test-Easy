@@ -4,7 +4,7 @@
       "Belden Lyman <belden@cpan.org>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "ExtUtils::MakeMaker version 6.64, CPAN::Meta::Converter version 2.112621",
+   "generated_by" : "ExtUtils::MakeMaker version 6.62, CPAN::Meta::Converter version 2.112150",
    "license" : [
       "perl_5"
    ],
@@ -52,5 +52,5 @@
          "url" : "git://github.com/belden/perl-test-easy.git"
       }
    },
-   "version" : "1.05"
+   "version" : "1.06"
 }
