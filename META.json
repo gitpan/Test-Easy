@@ -4,7 +4,7 @@
       "Belden Lyman <belden@cpan.org>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "ExtUtils::MakeMaker version 6.62, CPAN::Meta::Converter version 2.112150",
+   "generated_by" : "ExtUtils::MakeMaker version 6.6302, CPAN::Meta::Converter version 2.120630",
    "license" : [
       "perl_5"
    ],
@@ -22,23 +22,23 @@
    "prereqs" : {
       "build" : {
          "requires" : {
-            "ExtUtils::MakeMaker" : 0
+            "ExtUtils::MakeMaker" : "0"
          }
       },
       "configure" : {
          "requires" : {
-            "ExtUtils::MakeMaker" : 0
+            "ExtUtils::MakeMaker" : "0"
          }
       },
       "runtime" : {
          "requires" : {
-            "Data::Denter" : 0,
+            "Data::Denter" : "0",
             "Data::Difflet" : "0.06",
             "Functional::Utility" : "1.02",
             "Hash::MostUtils" : "1.05",
-            "Scalar::Util" : 0,
-            "Test::More" : 0,
-            "Test::Resub" : 0
+            "Scalar::Util" : "0",
+            "Test::More" : "0",
+            "Test::Resub" : "0"
          }
       }
    },
@@ -52,5 +52,5 @@
          "url" : "git://github.com/belden/perl-test-easy.git"
       }
    },
-   "version" : "1.06"
+   "version" : "1.07"
 }

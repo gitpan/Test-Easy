@@ -15,7 +15,7 @@ use Test::Easy::DeepEqual;
 use Test::Easy::Time;
 use Test::Resub;
 
-our $VERSION = 1.06;
+our $VERSION = 1.07;
 
 ## spend a little time moving things around into @EXPORT, @EXPORT_OK
 our @EXPORT = qw(nearly_ok around_about wiretap);
@@ -314,8 +314,8 @@ Each precondition in LIST is an ARRAYREF, and has the form: REFERENCE => $NEW_VA
 examples:
 
     my $just_a_scalar = 1;
-    my $arrayref      => [1..10];
-    my $hashref       => {'a'..'f'};
+    my $arrayref      = [1..10];
+    my $hashref       = {'a'..'f'};
     my $coderef       = sub { 'hi' };
 
     run_where(

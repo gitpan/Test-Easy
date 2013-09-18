@@ -1,5 +1,4 @@
 MANIFEST
-README.pod
 t/basic.t
 t/all.t
 t/hash.t
@@ -14,5 +13,8 @@ lib/Test/Easy/equivalence.pm
 lib/Test/Easy/Time.pm
 t/nearly.t
 eg/pod.pl
+Changes
+MANIFEST.SKIP
+README.pod
 META.yml                                 Module YAML meta-data (added by MakeMaker)
 META.json                                Module JSON meta-data (added by MakeMaker)
