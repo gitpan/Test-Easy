@@ -1,4 +1,9 @@
 MANIFEST
+MANIFEST.SKIP
+README.pod
+Changes
+Makefile.PL
+LICENSE
 t/basic.t
 t/all.t
 t/hash.t
@@ -6,15 +11,10 @@ t/data-driven.t
 t/assert-on-non-scalar-refs.t
 lib/Test/Easy/DataDriven.pm
 lib/Test/Easy.pm
-Makefile.PL
-LICENSE
 lib/Test/Easy/DeepEqual.pm
 lib/Test/Easy/equivalence.pm
 lib/Test/Easy/Time.pm
 t/nearly.t
 eg/pod.pl
-Changes
-MANIFEST.SKIP
-README.pod
 META.yml                                 Module YAML meta-data (added by MakeMaker)
 META.json                                Module JSON meta-data (added by MakeMaker)

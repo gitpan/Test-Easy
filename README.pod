@@ -15,7 +15,7 @@ use Test::Easy::DeepEqual;
 use Test::Easy::Time;
 use Test::Resub;
 
-our $VERSION = 1.07;
+our $VERSION = 1.08;
 
 ## spend a little time moving things around into @EXPORT, @EXPORT_OK
 our @EXPORT = qw(nearly_ok around_about wiretap);
@@ -319,9 +319,9 @@ examples:
     my $coderef       = sub { 'hi' };
 
     run_where(
-        [$coderef => sub { 'bye' }],
-        [$hashref => {apple => 'banana'}],
-        [$arrayref => [qw(hi mom)]],
+        [\$coderef => sub { 'bye' }],
+        [\$hashref => {apple => 'banana'}],
+        [\$arrayref => [qw(hi mom)]],
         [\$just_a_scalar => 8843],
         sub {
             $coderef->() . join ',', %$hashref, @$arrayref, $just_a_scalar,
