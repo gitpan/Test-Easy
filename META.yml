@@ -29,4 +29,4 @@ resources:
   bugtracker: https://github.com/belden/perl-test-easy/issues
   homepage: https://github.com/belden/perl-test-easy
   repository: git://github.com/belden/perl-test-easy.git
-version: 1.08
+version: 1.09
